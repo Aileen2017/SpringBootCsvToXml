@@ -7,15 +7,13 @@
 <script>
 $(document).ready(function(){
 	$('input#fileId').change(
-	//function () {
-  //  alert(jQuery(this).val())
-	//}
+	
 	function readURL(input) {
 			  var input = this;
     		  var url = $(this).val();
 			  if (input.files && input.files[0]) 
 		{
-			 	alert(jQuery(this).val());
+			 	
 			    var reader = new FileReader();
 			
 			    reader.onload = function(e) {
@@ -27,14 +25,32 @@ $(document).ready(function(){
 			      $('.image-title').html(input.files[0].name);
 			    };
 
-    		reader.readAsDataURL(input.files[0]);
+    			reader.readAsDataURL(input.files[0]);
 
+  		}
+  		else{
+  			
+  			removeUpload();	
   		}	
-	}
-	
-	);
+	});
 		
 });
+
+$(document).ready(function() {
+		$('#removeButtonId').click(function removeUpload() {
+  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+  $('.file-upload-content').hide();
+  $('.image-upload-wrap').show();
+});
+
+
+
+});
+
+
+
+
+
 
 var counter = 1;
 $(document).ready(function() {
@@ -224,7 +240,7 @@ body {
    <div class="file-upload-content">
     <img class="file-upload-image" src="#" alt="your image" />
     <div class="image-title-wrap">
-      <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+      <button type="button" id= "removeButtonId" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
     </div>
   </div>
    <table name= "table1" border="0" cellspacing="2">
