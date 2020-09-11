@@ -31,18 +31,6 @@ public class ServiceCsvToXml {
 	
 	static String rootElementName = "Datas";
 
-	public int serviceCsvToXml(MultipartFile multipartFile) throws Exception {
-
-			String fileName = multipartFile.getOriginalFilename();
-			String[] names = fileName.split("\\.");
-			String newFileName = names[0]+".xml";
-			InputStream is = multipartFile.getInputStream();
-			List<List<String>> lists = readCsv(is);
-			//String[] headers = {"", ""}; 
-			String[] headers = {"bonds","name", "currency", "maturity", "yield", "coupon" };
-			Document document = convertListToDocument(lists, headers);
-			return transformToXml(document, newFileName);
-	}
 	
 	public OutputStream serviceCsvToXmlOutputStream(MultipartFile multipartFile) throws Exception {
 
@@ -58,38 +46,27 @@ public class ServiceCsvToXml {
 	}
 	
 	
-	
-	public int serviceCsvToXml(MultipartFile multipartFile, String[] headers) throws Exception {
+	public OutputStream serviceCsvToXmlOutputStreamWithHeaders(MultipartFile multipartFile, String[] headers) throws Exception {
 
 		String fileName = multipartFile.getOriginalFilename();
 		String[] names = fileName.split("\\.");
 		String newFileName = names[0]+".xml";
 		InputStream is = multipartFile.getInputStream();
 		List<List<String>> lists = readCsv(is);
-		//String[] headers = {"", ""}; 
-		//String[] headers = {"bonds","name", "currency", "maturity", "yield", "coupon" };
-		Document document = convertListToDocument(lists, headers);
-		return transformToXml(document, newFileName);
-
-}
-	
-	/*	public int serviceCsvToXml2(MultipartFile multipartFile) {
-				try {
-					String fileName = multipartFile.getOriginalFilename();
-					InputStream is = multipartFile.getInputStream();
-					List<List<String>> lists = readCsv(is);
-					String[] headers = {"", ""}; 
-					Document document = convertListToDocument(lists, headers);
-					return transformToXml(document, fileName);
+		//if headers.length < number of data columns, xml parser will use undefined to tag each element 
+		//in this case, if headers are not provided by users, it will be left to parser to add undefined tag elements.
+		/*	if(headers.length==0) {
+				headers = new String[lists.get(0).size()];
+				for(int i=0;i<lists.get(0).size();i++) {
+					headers[i]= "header" + (i+1);
 					
-				}catch(Exception e) {
-					System.out.println(e.toString());
-					throw e;
 				}
 				
-	
-	
 			}*/
+		//if headers.length < number of data columns, xml parser will use undefined to tag each element 
+		Document document = convertListToDocument(lists, headers);
+		return transformToXmlStream(document);
+	}
 
 
 
@@ -120,9 +97,6 @@ public class ServiceCsvToXml {
 
 
 		return document;
-
-
-
 
 	}
 

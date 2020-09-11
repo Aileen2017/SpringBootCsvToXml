@@ -65,7 +65,7 @@ var counter = 1;
 $(document).ready(function() {
 
 $('#add').click(function () {
-	alert("clicked");
+	//alert("clicked");
     var table = $(this).closest('table');
     if (table.find('input:text').length < 7) {
         table.append('<tr><td align="centre"  class="headers-text" width=200px>Header'+counter+' <td> <input type="text" class="text-input" id="headerName'+counter+'" name='+'"headerName'+counter+'"'+ 'value="" /> </td></tr>');
@@ -92,7 +92,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 
-    $("#submitBtn").click(function(){
+    $('#submitBtn').click(function(){
     	var str = '';
     	
     	for(i=1;i<counter;i++)
@@ -286,8 +286,8 @@ body {
 </head>
 
 <div class="file-upload">
-  <form action = "#" th:action="@{/uploadCsv_return_download}" enctype="multipart/form-data" method = "post">
-  <button class="file-upload-btn" type="submit">Submit</button>
+  <form action = "#" th:action="@{/uploadCsv_with_headers_return_download}" enctype="multipart/form-data" method = "post">
+  <button class="file-upload-btn" type="submit" id="submitBtn">Submit</button>
 
   <div class="image-upload-wrap">
     <input class="file-upload-input" type='file' id="fileId" name="file1" onchange="readURL(this)"/>

@@ -7,12 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.springboot.csvtoxmlproject.ServiceCsvToXml;
 
 @Controller
 public class ControllerCsvToXmlProject {
@@ -36,12 +33,30 @@ public class ControllerCsvToXmlProject {
 		OutputStream outputStream = serviceCsvToXml.serviceCsvToXmlOutputStream(file);
   
 		return ResponseEntity.ok()
-		    		.header("Content-Disposition","attachment;filename="+fileName+".xml" )
-		    		//.header("Content-Disposition", "attachment; filename=bonds.xml" )
-		            .contentLength(outputStream.toString().length())
-		           // .contentType(MediaType.APPLICATION_OCTET_STREAM) 
+		    		.header("Content-Disposition","attachment;filename="+fileName+".xml" )		    		
+		            .contentLength(outputStream.toString().length())		    
 		            .body(outputStream.toString().getBytes());
 
 	}
+	
+
+	
+	@PostMapping("/uploadCsv_with_headers_return_download")
+	public ResponseEntity uploadCsvWithHeadersSubmit(@RequestParam("hiddenText") String hiddenText, @RequestParam("file1") MultipartFile file, Model model) throws Exception {
+	
+		System.out.println(hiddenText);
+		String[] headers = {};
+		if(!hiddenText.isEmpty())
+			headers = hiddenText.split(" ");
+		OutputStream outputStream = serviceCsvToXml.serviceCsvToXmlOutputStreamWithHeaders(file, headers);	
+		String fileName = file.getOriginalFilename().split("\\.")[0];
+		return ResponseEntity.ok()
+		    		.header("Content-Disposition","attachment;filename="+fileName+".xml" )	    		
+		            .contentLength(outputStream.toString().length())
+		            .body(outputStream.toString().getBytes());
+
+	}
+	
+	
 
 }
