@@ -65,11 +65,9 @@ var counter = 1;
 $(document).ready(function() {
 
 $('#add').click(function () {
-	//alert("clicked");
-    var table = $(this).closest('table');
-    if (table.find('input:text').length < 7) {
-        table.append('<tr><td align="centre"  class="headers-text" width=200px>Header'+counter+' <td> <input type="text" class="text-input" id="headerName'+counter+'" name='+'"headerName'+counter+'"'+ 'value="" /> </td></tr>');
-    }
+
+    var table = $(this).closest('table'); 
+    table.append('<tr><td align="centre"  class="headers-text" width=200px>Header'+counter+' <td> <input type="text" class="text-input" id="headerName'+counter+'" name='+'"headerName'+counter+'"'+ 'value="" /> </td></tr>');
     counter++;
 });
 });
@@ -77,30 +75,22 @@ $('#add').click(function () {
 $(document).ready(function() {
 $('#del').click(function () {
     var table = $(this).closest('table');
-    if (table.find('input:text').length > 1) {
-        table.find('input:text').last().closest('tr').remove();
-    }
-});
-});
+	table.find('input:text').last().closest('tr').remove();
 
-$(document).ready(function(){
-  $("p").click(function(){
-    $(this).hide();
-  });
-  
+});
 });
 
 $(document).ready(function(){
 
     $('#submitBtn').click(function(){
-    	var str = '';
-    	
+    	var str = '';  	
     	for(i=1;i<counter;i++)
     	{
 			var txtName1 = "#headerName" + i;
 	        var str1 = $(txtName1).val();
 	        
 	       //not working: str1.concat(' ', str2);
+	       
 	        str = str + str1+' ';  //this concatenation works
         }
         
@@ -110,8 +100,6 @@ $(document).ready(function(){
     });
 
 });
-
-
 
 </script>
 
@@ -288,22 +276,20 @@ body {
 <div class="file-upload">
   <form action = "#" th:action="@{/uploadCsv_with_headers_return_download}" enctype="multipart/form-data" method = "post">
   <button class="file-upload-btn" type="submit" id="submitBtn">Submit</button>
-
   <div class="image-upload-wrap">
-    <input class="file-upload-input" type='file' id="fileId" name="file1" onchange="readURL(this)"/>
+    <input class="file-upload-input" type="file" id="fileId" name="file1" onchange="readURL(this)"/>
     <div class="drag-text">
       <h3>Drag and drop a file or select add Csv file</h3>
     </div>
   </div>
    <div class="file-upload-content">
-    <img class="file-upload-image" src="#"  /> 
+   <br/>
     <div class="image-title-wrap">
       <button type="button" id= "removeButtonId" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
     </div>
   </div>
   <div class = "file-upload">
-   <table name= "table1" class = "table-headers" border="0" cellspacing="2">
-   
+   <table name= "table1" class = "table-headers" border="0" cellspacing="2">  
     <tr>
         <td align="centre"  class='headers-text' width=200px >Headers</td>
         <td>
@@ -312,28 +298,8 @@ body {
           
         </td>
     </tr>
-    <tr>
-        <td style="height:3px" colspan="2"></td>
-    </tr>
-    <tr style="background-color: #383838">
-        <td></td>
-    </tr>
-    <tr></tr>
-    <tr>
-        </div>
-        </div>
-        </td>
-    </tr>
-	</table>
-	
-
-
-
-  <input type="hidden" id="hiddenTextId" name="hiddenText" value="" />
-  
+	</table>	
+  <input type="hidden" id="hiddenTextId" name="hiddenText" value="" />  
   </form>
- 
 </div>
-
-
 </html>
